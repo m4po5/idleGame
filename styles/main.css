@@ -1,0 +1,136 @@
+body {
+    background-color: #43464B;
+    color:white;
+}
+
+h1 {
+    background: -webkit-linear-gradient(brown, orange);
+    background-clip: border-box;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+#resources {
+    position: absolute;
+    top: 0px;
+    right: 10px;
+    background: -webkit-linear-gradient(top left,gray, lightgray, gray);
+    border-radius: 12px;
+    border: 6px inset gray;
+}
+
+#resources li {
+    list-style: none;
+    float: left;
+    margin-right: 20px;
+    padding:10px;
+    width: 150px;
+    font-size: 12px;
+    font-weight: bold;
+    font-family: Tahoma;
+}
+
+#resources #labelMinerals{
+    background: -webkit-linear-gradient(maroon 30%, darkslategray);
+    background-clip: border-box;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+#resources #labelBiomatter{
+    background: -webkit-linear-gradient(darkolivegreen 30%, brown);
+    background-clip: border-box;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+#resources #labelDeepWater{
+    background: -webkit-linear-gradient(midnightblue, lightblue);
+    background-clip: border-box;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+#resources #labelPower{
+    background: -webkit-linear-gradient(darkgoldenrod 40%, red);
+    background-clip: border-box;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+#resources li .figure{
+    color: black;
+    padding-left: 5px;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+#structures{
+    width: 300px;
+}
+
+.buildBtn {
+    height: 50px;
+    width: 300px;
+    left: -10%;
+    position:relative;
+    overflow:hidden;
+    align-content: center;
+    display: flex;
+    justify-content: center;
+    border: 2px solid;
+    margin-bottom: 13px;
+}
+
+.buildBtn.enabled{
+    background-color: black;
+    color:gold;
+    border-color: white;
+}
+
+.buildBtn.disabled{
+    background-color: #282D30;
+    color: #D7D9D9;
+    border-color: #696B6F;
+}
+
+.buildBtn.inProgress{
+    background-color: black;
+    color: lightyellow;
+    border-color:#B2B4B5;
+}
+
+.buildBtn .progress{
+    height: inherit;
+    width: inherit;
+    position: absolute;
+    left: -300px;
+    background-color: white;
+    opacity: 0.3;
+}
+
+.buildBtn .label{
+    position: absolute;
+    width: inherit;
+    top: 50%;
+    transform: translate(0, -50%);
+    padding-left: 20px;
+    font-weight: bold;
+    font-size: 12px;
+    font-family: Tahoma;
+}
+
+.buildBtn .label .structureCount{
+    position: absolute;
+    right: 100px;
+    top: -25%;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 20px;
+    color: green;
+}
+
+.buildBtn .label .percentage{
+    position: absolute;
+    right:0px;
+    padding-right: 30px;
+    color: white;
+}
