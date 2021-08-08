@@ -73,21 +73,21 @@ var ResourceMonitor = function(Ticker, view) {
     }
 
     view.hover(function(){
-        showToolTip();
         tipMinerals.html(printResourceInfo(minerals));
         tipBiomatter.html(printResourceInfo(biomatter));
         tipDeepWater.html(printResourceInfo(deepWater));
         tipPower.html(printResourceInfo(power));
+        showToolTip();
     }, function(){
         hideToolTip();
     });
 
     function showToolTip(){
-        tooltip.css("opacity", 1);
+        tooltip.slideDown("fast");
     }
 
     function hideToolTip(){
-        tooltip.css("opacity", 0);
+        tooltip.slideUp("fast");
     }
 
     function printResourceInfo(resource){
@@ -109,11 +109,11 @@ var ResourceMonitor = function(Ticker, view) {
     }
 
     function showReqs(reqs){
-        showToolTip();
         tipMinerals.html(printReq(minerals, reqs[0]));
         tipBiomatter.html(printReq(biomatter, reqs[1]));
         tipDeepWater.html(printReq(deepWater, reqs[2]));
         tipPower.html(printReq(power, reqs[3]));
+        showToolTip();
     }
 
     function printReq(resource, req){
