@@ -2,7 +2,7 @@
 - [ ] extract Ticker, wire things together in main
 */
 
-var ResourceMonitor = function (Ticker) {
+var ResourceMonitor = function(Ticker, view) {
     function Resource(value) {
         this.value = value;
         this.incomes = [];
@@ -49,11 +49,21 @@ var ResourceMonitor = function (Ticker) {
         updateView();
     });
 
+    var mineralsView = view.find("#minerals");
+    var biomatterView = view.find("#biomatter");
+    var deepWaterView = view.find("#deepWater");
+    var powerView = view.find("#power");
+    var tooltip = view.find(".tooltiptext");
+    var tipMinerals = tooltip.find("#tipMinerals");
+    var tipBiomatter = tooltip.find("#tipBiomatter");
+    var tipDeepWater = tooltip.find("#tipDeepWater");
+    var tipPower = tooltip.find("#tipPower");
+
     function updateView() {
-        $("#minerals").text(Math.floor(minerals.value));
-        $("#biomatter").text(Math.floor(biomatter.value));
-        $("#deepWater").text(Math.floor(deepWater.value));
-        $("#power").text(Math.floor(power.getBalance()));
+        mineralsView.find(".figure").text(Math.floor(minerals.value));
+        biomatterView.find(".figure").text(Math.floor(biomatter.value));
+        deepWaterView.find(".figure").text(Math.floor(deepWater.value));
+        powerView.find(".figure").text(Math.floor(power.getBalance()));
     }
 
     function withdrawResources(sums) {
@@ -62,13 +72,71 @@ var ResourceMonitor = function (Ticker) {
         deepWater.value -= sums[2];
     }
 
+    view.hover(function(){
+        showToolTip();
+        tipMinerals.html(printResourceInfo(minerals));
+        tipBiomatter.html(printResourceInfo(biomatter));
+        tipDeepWater.html(printResourceInfo(deepWater));
+        tipPower.html(printResourceInfo(power));
+    }, function(){
+        hideToolTip();
+    });
+
+    function showToolTip(){
+        tooltip.css("opacity", 1);
+    }
+
+    function hideToolTip(){
+        tooltip.css("opacity", 0);
+    }
+
+    function printResourceInfo(resource){
+        let balance = resource.getBalance();
+        let text = "<span style='color: ";
+        if (balance >= 0){
+            text += "green;'>"
+        } else {
+            text += "red;'>"
+        }
+        text += "Balance: "+resource.getBalance() + "</span><br>";
+        resource.incomes.forEach(element => {
+            text += "<span style='color:green'>"+element.source+": +"+element.value+"</span><br>";
+        });
+        resource.demands.forEach(element => {
+            text += "<span style='color:red'>"+element.source+": +"+element.value+"</span><br>";
+        });
+        return text;
+    }
+
+    function showReqs(reqs){
+        showToolTip();
+        tipMinerals.html(printReq(minerals, reqs[0]));
+        tipBiomatter.html(printReq(biomatter, reqs[1]));
+        tipDeepWater.html(printReq(deepWater, reqs[2]));
+        tipPower.html(printReq(power, reqs[3]));
+    }
+
+    function printReq(resource, req){
+        let color = "red";
+        if(resource.value >= req){
+            color = "green";
+        }
+        return "<span style='color: " + color + "'>-" + req + "</span>"
+    }
+
+    function hideReqs(){
+        hideToolTip();
+    }
+
     var methods = {
         minerals: minerals,
         biomatter: biomatter,
         deepWater: deepWater,
         power: power,
-        withdrawResources: withdrawResources
+        withdrawResources: withdrawResources,
+        showReqs: showReqs,
+        hideReqs: hideReqs
     }
 
     return methods;
-}(Ticker);
+};

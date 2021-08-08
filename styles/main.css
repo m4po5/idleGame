@@ -10,13 +10,19 @@ h1 {
     -webkit-text-fill-color: transparent;
 }
 
-#resources {
+#resources{
+    width: 750px;
+}
+
+#resources ul {
     position: absolute;
+    width: inherit;
     top: 0px;
     right: 10px;
     background: -webkit-linear-gradient(top left,gray, lightgray, gray);
     border-radius: 12px;
     border: 6px inset gray;
+    text-align: center;
 }
 
 #resources li {
@@ -25,7 +31,7 @@ h1 {
     float: left;
     margin-right: 20px;
     padding:10px;
-    width: 150px;
+    width: 19.6%;
     font-size: 12px;
     font-weight: bold;
     font-family: Tahoma;
@@ -65,13 +71,31 @@ h1 {
     font-family: 'Courier New', Courier, monospace;
 }
 
-#resources li .reqs{
-    color: darkred;
+#resources .tooltiptext{
+    width: inherit;
+    background-color: #000;
+    text-align: right;
+    border-radius: 6px;
+    border: solid #87898C 1px;
     position: absolute;
-    font-size: 11px;
-    top: 50%;
-    transform: translate(0, -50%);
-    right: 15%;
+    right: 40px;
+    top: 60px;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 1.0s;
+}
+
+#resources .tooltiptext table{
+    width: inherit;
+    position: relative;
+    right: 50px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 12px;
+    padding-top: 5px;
+}
+
+#resources .tooltiptext table td{
+    width: 25%;
 }
 
 #structures{

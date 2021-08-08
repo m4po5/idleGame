@@ -9,12 +9,19 @@
 
 <body>
     <h1>Idle Robot</h1>
-    <ul id="resources">
-        <li><span id="labelMinerals">Minerals: </span><span id="minerals" class="figure">0</span> <span id="mReq" class="reqs"></span></li>
-        <li><span id="labelBiomatter">Biomatter: </span><span id="biomatter" class="figure">0</span> <span id="bReq" class="reqs"></span></li>
-        <li><span id="labelDeepWater">Deep Water: </span><span id="deepWater" class="figure">0</span> <span id="dwReq" class="reqs"></span></li>
-        <li><span id="labelPower">Power: </span><span id="power" class="figure">0</span> <span id="pReq" class="reqs"></span></li>
-    </ul>
+    <div id="resources">
+        <ul>
+            <li id="minerals"><span id="labelMinerals">Minerals: </span><span class="figure">0</span></li>
+            <li id="biomatter"><span id="labelBiomatter">Biomatter: </span><span class="figure">0</span></li>
+            <li id="deepWater"><span id="labelDeepWater">Deep Water: </span><span class="figure">0</span></li>
+            <li id="power"><span id="labelPower">Power: </span><span class="figure">0</span></span></li>
+        </ul>
+        <span class="tooltiptext">
+            <table><tr>
+            <td id="tipMinerals">1</td><td id="tipBiomatter">2</td><td id="tipDeepWater">3</td><td id="tipPower">4</td>
+            </tr></table>
+        </span>
+    </div>
 
     <ul id="structures">
         <li id="buildPowerPlant" class="buildBtn disabled">

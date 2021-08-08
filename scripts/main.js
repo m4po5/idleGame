@@ -1,4 +1,6 @@
 $(document).ready(function () {
+    var resourceMonitor = ResourceMonitor(Ticker, $("#resources"));
+
     var StructureManager = function (ResourceMonitor) {
         var powerPlants = 0;
         var baseReqs = {
@@ -24,7 +26,7 @@ $(document).ready(function () {
 
         function buildPowerPlant(){
             powerPlants ++;
-            ResourceMonitor.power.addIncome({source: "Power Plant", value: 5/100});
+            ResourceMonitor.power.addIncome({source: "Power Plant "+powerPlants, value: 5});
             $("#powerPlants").text(powerPlants);
         }
 
@@ -34,7 +36,7 @@ $(document).ready(function () {
         }
 
         return methods;
-    }(ResourceMonitor);
+    }(resourceMonitor);
 
     var StructureBuilder = function (rm, sm) {
         function isAvailablePowerPlant() {
@@ -48,7 +50,7 @@ $(document).ready(function () {
 
         return methods;
 
-    }(ResourceMonitor, StructureManager);
+    }(resourceMonitor, StructureManager);
 
 
     var prog = 0;
@@ -103,23 +105,17 @@ $(document).ready(function () {
         if(StructureBuilder.isAvailablePowerPlant()){
             powerPlantBtn.removeClass("enabled");
             powerPlantBtn.addClass("inProgress");
-            ResourceMonitor.withdrawResources(StructureManager.getReqPowerPlant());
+            resourceMonitor.withdrawResources(StructureManager.getReqPowerPlant());
             isInProgress = true;
         }
     })
     
     var showReqs = function(reqs){
-        $("#mReq").text("-"+reqs[0]);
-        $("#bReq").text("-"+reqs[1]);
-        $("#dwReq").text("-"+reqs[2]);
-        $("#pReq").text("-"+reqs[3]);
+        resourceMonitor.showReqs(reqs);
     };
 
     var clearReqs = function(){
-        $("#mReq").text("");
-        $("#bReq").text("");
-        $("#dwReq").text("");
-        $("#pReq").text("");
+        resourceMonitor.hideReqs();
     };
 
     powerPlantBtn.hover(function(){
