@@ -1,7 +1,3 @@
-/*
-- [ ] extract Ticker, wire things together in main
-*/
-
 var ResourceMonitor = function(Ticker, view) {
     function Resource(value) {
         this.value = value;
