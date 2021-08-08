@@ -1,82 +1,5 @@
 $(document).ready(function () {
-    var Ticker = function () {
-        var dos = []
-        function sleep(ms) {
-            return new Promise(resolve => setTimeout(resolve, ms));
-        }
-
-        async function start() {
-            while (true) {
-                dos.forEach(element => {
-                    element();
-                });
-                await sleep(100);
-            }
-
-        };
-
-        return {
-            onTick: function (callback) { dos.push(callback) },
-            removeFromTick: function (callback) { dos.filter(function (item) { return item === callback; }) },
-            start: start
-        }
-    }();
-
-    var ResourceMonitor = function (Ticker) {
-        var minerals = 0, biomatter = 0, deepWater = 0, power = 0;
-        var mRate = 1 / 10, bRate = 3 / 10, dwRate = 5 / 100, pRate = 0;
-
-        Ticker.onTick(function () {
-            minerals += mRate;
-            biomatter += bRate;
-            deepWater += dwRate;
-            power += pRate + (parseInt($("#powerPlants").text(),10) * 3 / 100);
-
-            updateView();
-        });
-
-        function updateView() {
-            $("#minerals").text(Math.floor(minerals));
-            $("#biomatter").text(Math.floor(biomatter));
-            $("#deepWater").text(Math.floor(deepWater));
-            $("#power").text(Math.floor(power));
-        }
-
-        function enoughMinerals(req) {
-            return minerals >= req;
-        }
-
-        function enoughBiomatter(req) {
-            return biomatter >= req;
-        }
-
-        function enoughDeepWater(req) {
-            return deepWater >= req;
-        }
-
-        function enoughPower(req) {
-            return power >= req;
-        }
-
-        function withdrawResources(sums){
-            minerals -= sums[0];
-            biomatter -= sums[1];
-            deepWater -= sums[2];
-            power -= sums[3];
-        }
-
-        var methods = {
-            enoughMinerals: enoughMinerals,
-            enoughBiomatter: enoughBiomatter,
-            enoughDeepWater: enoughDeepWater,
-            enoughPower: enoughPower,
-            withdrawResources: withdrawResources
-        }
-
-        return methods;
-    }(Ticker);
-
-    var StructureManager = function (Ticker) {
+    var StructureManager = function (ResourceMonitor) {
         var powerPlants = 0;
         var baseReqs = {
             powerPlant: [50, 120, 0, 0, 3/100]
@@ -101,6 +24,7 @@ $(document).ready(function () {
 
         function buildPowerPlant(){
             powerPlants ++;
+            ResourceMonitor.power.addIncome({source: "Power Plant", value: 5/100});
             $("#powerPlants").text(powerPlants);
         }
 
@@ -110,12 +34,12 @@ $(document).ready(function () {
         }
 
         return methods;
-    }(Ticker);
+    }(ResourceMonitor);
 
     var StructureBuilder = function (rm, sm) {
         function isAvailablePowerPlant() {
             let reqs = sm.getReqPowerPlant();
-            return rm.enoughMinerals(reqs[0]) && rm.enoughBiomatter(reqs[1]) && rm.enoughDeepWater(reqs[2]) && rm.enoughPower(reqs[3]);
+            return rm.minerals.enough(reqs[0]) && rm.biomatter.enough(reqs[1]) && rm.deepWater.enough(reqs[2]) && rm.power.enough(reqs[3]);
         }
 
         var methods = {
