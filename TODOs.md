@@ -1,17 +1,46 @@
 # TODOs
-Limited tracking, I usually delete what I am done with.
+Limited tracking, I usually delete what I am done with. I think.
 
 ## Backlog
-- [ ] re-wire everything in main.js, using dependency injection.
+- [ ] rework [building operations](#building-operations)
+- [ ] PowerPlant [bio/waste balance](#biowaste-balance)
+- [ ] rework ticking (accomodate structures and rendering)
+- [ ] carefully wire the new stuff into the existing UI
+- [ ] turn tooltiptext into output stream, what's sent appears as appended line.
+
+## Active Epics
+- [ ] implement first concept for [structures-pipeline](#initial-structures-pipeline)
 
 ## In Progress
-- [ ] implement first concept for [structures-pipeline](#initial-structures-pipeline)
-- [ ] turn tooltiptext into output stream, what's sent appears as appended line.
+- [ ] setup [core structure](#core-structure)
 
 ## Done
 
+## Rejected
+- ~~[ ] re-wire everything in main.js, using dependency injection.~~
+
 # Concepts
 general concepts to be implemented next
+## Core Structure
+Foundry, PowerPlant, local and internal ResourceDeposits.
+
+Initially the Foundry turns scrap into minerals and imports biomatter. The Powerplant does not require power, but feeds its internal ecosystem with fresh biomatter, cleansing out the waste-carbon. Excess-power is available to the system, while carbon has to be transported out of the unite for efficient production yield.
+
+__Fluff__ could be hardcoded into an array of lines, as to allow scanning operations to randomly pick lines, slowly building a file, and allowing for improved scanners to pickup exactly what's missing, and eventually the whole thing.
+
+## Building Operations
+Building is a Foundry.function. The progress is something either the Foundry or the Construction Side knows (I'm for the former).
+
+__:exclamation: From this point on I work in feature-branches under development!__ All things before this point are considered initial setup of the project.
+
+Smart guy educated me: Carbon is a more sensible waste product of biomatter procedures, in the wider sense, and can be used for construction more feasibly than minerals - freeing up that resource for electronics and such.
+
+### Rendering Progress
+Logically, it is not the Foundry telling a button to display said progress, but the render function of the ticker that has to check everything that needs displaying - a precursor to the actual Control and Command system the player is going to use when accessing the game-interface.
+
+## Bio/Waste Balance
+Internal procedure, maximum power yield depends on fresh biomatter input and constant ejection of waste-carbon.
+
 ## Initial Structures Pipeline
 :exclamation: Resources should be blind until scanners are unlocked.
 
