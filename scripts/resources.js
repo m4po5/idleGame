@@ -1,8 +1,5 @@
 function Resource(value){
     this.level = value; 
-    this.deposit = function(amount){
-        this.level += amount;
-    }
     this.withdraw = function(amount){
         let drain = 0;
         if (amount > this.level){
@@ -16,41 +13,45 @@ function Resource(value){
     }
 };
 
-function LimitedResource(value, limit){
+function ResourceDeposit(value, capacity){
     Resource.call(this, value);
-    this.limit = limit;
+    this.capacity = capacity;
     this.deposit = function(amount){
-        if (amount+this.level > this.limit){
-            this.level = this.limit;
+        if (amount+this.level > this.capacity){
+            this.level = this.capacity;
         } else {
             this.level += amount;
         }
     }
+    this.increaseCapacity = function(amount){
+        this.capacity += amount;
+    }
 };
 
-LocalScraps = function(){
-    scraps = new Resource(10000);
-    getLevel = function(){
-        return scraps.level;
-    }
-    return {
-        withdraw: scraps.withdraw,
-        getLevel: getLevel
-    }
-}();
+function Balance(){
+    this.incomes = [];
+    this.demands =  [];
 
-MineralDeposit = function(){
-    minerals = new LimitedResource(0, 5000);
-    getLevel = function(){
-        return minerals.level;
+    this.getBalance = function(){
+        let balance = 0;
+        this.incomes.forEach(element => {
+            balance += element.value;
+        });
+        this.demands.forEach(element => {
+            balance -= element.value;
+        })
+        return balance;
     }
-    getLimit = function(){
-        return minerals.limit;
+
+    this.addIncome = function(income){
+        this.incomes.push(income);
     }
-    return {
-        deposit: minerals.deposit,
-        withdraw: minerals.withdraw,
-        getLevel: getLevel,
-        getLimit: getLimit
+
+    this.addDemand = function(demand){
+        this.demands.push(demand);
     }
-}();
+}
+
+var areas = [{minerals: new Resource(5000), biomatter: new Resource(10000)}];
+
+var internal = {minerals: new ResourceDeposit(0,5000), biomatter: new ResourceDeposit(0,5000), power: new Balance()}

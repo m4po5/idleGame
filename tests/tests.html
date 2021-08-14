@@ -7,30 +7,5 @@
   <div id="qunit-fixture"></div>
   <script src="https://code.jquery.com/qunit/qunit-2.16.0.js"></script>
   <script src="../scripts/resources.js"></script>
-  <script>
-      const { test } = QUnit;
-      QUnit.module("Resources Tests", function(hooks){
-        hooks.beforeEach(function(){
-            this.resource = new Resource(200);
-        })
-        test("deposit something", function(assert){
-            let amount = this.resource.level;
-            let cache = 300;
-            this.resource.deposit(cache);
-            assert.equal(this.resource.level, amount+cache, "depositing should correctly increase content.")
-        });
-        test("withdraw more than there is", function(assert){
-            let amount = this.resource.level;
-            let cache = this.resource.withdraw(amount + 300);
-            assert.equal(amount, cache, "withdraw should give as much as was inside.")
-            assert.equal(this.resource.level, 0, "withdraw should not allow resource to fall under zero.")
-        });
-        test("Deposit against Limit", function(assert){
-            let limitedResource = new LimitedResource(0, 5000);
-            let value = limitedResource.limit + 1000;
-            limitedResource.deposit(value);
-            assert.equal(limitedResource.level, limitedResource.limit, "deposit should be full")
-        });
-      });
-  </script>
+  <script src="resourcesTests.js"></script>
 </body>
