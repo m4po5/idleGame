@@ -28,14 +28,14 @@ function ResourceDeposit(value, capacity){
     }
 };
 
-function Balance(){
+function PowerGrid(){
     this.incomes = [];
     this.demands =  [];
 
     this.getBalance = function(){
         let balance = 0;
         this.incomes.forEach(element => {
-            balance += element.value;
+            balance += element.source.powerOutput;
         });
         this.demands.forEach(element => {
             balance -= element.value;
@@ -54,4 +54,4 @@ function Balance(){
 
 var areas = [{minerals: new Resource(5000), biomatter: new Resource(10000)}];
 
-var internal = {minerals: new ResourceDeposit(0,5000), biomatter: new ResourceDeposit(0,5000), power: new Balance()}
+var internal = {minerals: new ResourceDeposit(0,5000), biomatter: new ResourceDeposit(0,5000), power: new PowerGrid()}

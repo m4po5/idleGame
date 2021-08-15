@@ -7,6 +7,7 @@ Limited tracking, I usually delete what I am done with. I think.
 - [ ] rework ticking (accomodate structures and rendering)
 - [ ] carefully wire the new stuff into the existing UI
 - [ ] turn tooltiptext into output stream, what's sent appears as appended line.
+- [ ] consider reworking powerPlant.powerEfficiency and .health
 
 ## Active Epics
 - [ ] implement first concept for [structures-pipeline](#initial-structures-pipeline)
