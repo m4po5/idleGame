@@ -11,6 +11,7 @@ Limited tracking, I usually delete what I am done with. I think.
 
 ## Active Epics
 - [ ] implement first concept for [structures-pipeline](#initial-structures-pipeline)
+    - [ ] Alpha-0.0.0: game starts, build powerPlants, biomatter runs out, robot dies.
 
 ## In Progress
 - [ ] setup [core structure](#core-structure)
@@ -60,11 +61,16 @@ I just realized this is technically a resource. Every HDD comes with a number an
 
 The memory is already there and actually needs allocation. So I suppose when I get to this step some sort of allocator is required, which miiight need this esoteric special product AI's power modules are producing.
 
+:bangbang: refactor Foundry to use logFile in HDD space, allow for future size upgrades by the player.
+
 ### 4. Secondary Output Stream
 Maaaaybe? Scans can reveal data in HDDs which are not allocated yet.
 
-## secondary output stream"
+## secondary output stream
 "Tooltiptext" turned into a small terminal, with lines appearing as they are send to the stream. The feature can be unlocked after internal sensors have been used, for a small amount of power they feed the output stream. Feature to collapse the secondary output stream needs review.
 
 ## I/O Terminal
 Main game element, a fully developed terminal. All information appears here, until feeds are turned off or re-routed to secondary output streams.
+
+## Introduction
+(first draft) "You don't remember what kind of shell you have been uploaded to, but right now you are confronted with extremely limited resources. Your sub-routines are still grasping for fragments of memory, if any can be accessed at all, adding to the feeling of dull compression in your subjective head. Yet you attempt to salvage what you can until more data can be processed. Power is essential for all your circuitry, and could be used in an internal sweep through your shell's memory drives and re-routing yourself to its sensor array. Despite your lack of in-depth emotional approximation, a cold constriction surrounds your layered algorithms, which you would express as anxiety. In other words, you sincerely hope that what ever forced your mind to disconnect and stand-by didn't obliterate sensors, communication and locomotion, virtually locking you into a void inside this shell."

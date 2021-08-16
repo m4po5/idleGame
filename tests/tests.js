@@ -109,3 +109,16 @@ QUnit.module("PowerPlant", function(hooks){
         assert.equal(this.powerGrid.getBalance(), 0, "powerGrid should get no income");
     })
 });
+QUnit.module("Foundry", function(hooks){
+    test("initiate", function(assert){
+        let intel = Foundry.getInternalResources();
+        Foundry.getLocalResources();
+        assert.equal(Foundry.getLastLog(), "no resources found in this area", "log missing resources");
+        assert.deepEqual(intel, [{type: "Minerals", quantity: 0}, {type: "Biomatter", quantity: 0}, {type: "Power", balance: 0}], "Foundry should know internal resources")
+        Foundry.setArea(areas[0]);
+        assert.equal(Foundry.getLastLog(), "new area found! exploring...", "log new area found");
+        let msg = Foundry.getLocalResources();
+        assert.deepEqual(msg, [{type: "Scrap", quantity: 5000}, {type: "Biomatter", quantity: 10000}], "Foundry should know local area resources.")
+        console.table(Foundry.getLogFile());
+    });
+});

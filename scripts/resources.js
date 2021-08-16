@@ -1,5 +1,6 @@
-function Resource(value){
-    this.level = value; 
+function Resource(value, type){
+    this.level = value;
+    this.type = type;
     this.withdraw = function(amount){
         let drain = 0;
         if (amount > this.level){
@@ -13,8 +14,8 @@ function Resource(value){
     }
 };
 
-function ResourceDeposit(value, capacity){
-    Resource.call(this, value);
+function ResourceDeposit(value, capacity, type){
+    Resource.call(this, value, type);
     this.capacity = capacity;
     this.deposit = function(amount){
         if (amount+this.level > this.capacity){
@@ -52,6 +53,6 @@ function PowerGrid(){
     }
 }
 
-var areas = [{minerals: new Resource(5000), biomatter: new Resource(10000)}];
+var areas = [[new Resource(5000, "Scrap"), new Resource(10000, "Biomatter")], []];
 
-var internal = {minerals: new ResourceDeposit(0,5000), biomatter: new ResourceDeposit(0,5000), power: new PowerGrid()}
+var internal = {minerals: new ResourceDeposit(0,5000, "Minerals"), biomatter: new ResourceDeposit(0,5000, "Biomatter"), power: new PowerGrid()}
