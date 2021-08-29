@@ -118,7 +118,7 @@ QUnit.module("Foundry", function(hooks){
         Foundry.setArea(areas[0]);
         assert.equal(Foundry.getLastLog(), "new area found! exploring...", "log new area found");
         let msg = Foundry.getLocalResources();
-        assert.deepEqual(msg, [{type: "Scrap", quantity: 5000}, {type: "Biomatter", quantity: 10000}], "Foundry should know local area resources.")
+        assert.deepEqual(msg, [{type: "Scrap", quantity: 5000}, {type: "Raw Biomass", quantity: 10000}], "Foundry should know local area resources.")
         console.table(Foundry.getLogFile());
     });
 });

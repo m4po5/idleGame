@@ -8,6 +8,7 @@ Limited tracking, I usually delete what I am done with. I think.
 - [ ] carefully wire the new stuff into the existing UI
 - [ ] turn tooltiptext into output stream, what's sent appears as appended line.
 - [ ] consider reworking powerPlant.powerEfficiency and .health
+- [ ] improve [Game Loop](https://developer.mozilla.org/en-US/docs/Games/Anatomy) logic
 
 ## Active Epics
 - [ ] implement first concept for [structures-pipeline](#initial-structures-pipeline)
@@ -74,3 +75,15 @@ Main game element, a fully developed terminal. All information appears here, unt
 
 ## Introduction
 (first draft) "You don't remember what kind of shell you have been uploaded to, but right now you are confronted with extremely limited resources. Your sub-routines are still grasping for fragments of memory, if any can be accessed at all, adding to the feeling of dull compression in your subjective head. Yet you attempt to salvage what you can until more data can be processed. Power is essential for all your circuitry, and could be used in an internal sweep through your shell's memory drives and re-routing yourself to its sensor array. Despite your lack of in-depth emotional approximation, a cold constriction surrounds your layered algorithms, which you would express as anxiety. In other words, you sincerely hope that what ever forced your mind to disconnect and stand-by didn't obliterate sensors, communication and locomotion, virtually locking you into a void inside this shell."
+
+# Structure
+After a lot of failing around and the big discovery of [jsconsole.com](https://jsconsole.com) (which by chance I used for brainless fiddling around... till it started to be useful fiddling around, following ideas and concepts I always meant to try out), I realized what it is I really have to create.
+
+## Library
+Building me all the objects I need
+
+## Engine
+Where I put all these objects together and let them dance to the loop of my main loop.
+
+## Game
+The actual output and UI, which I in my mind have entirely revised already, with a totally new design, layout and approach to the narrative in general.

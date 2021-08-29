@@ -42,18 +42,6 @@ It automatically looks for resources it can quarry and collects them. Automation
 Building tasks are something given from the outside. Perhaps they will need a "done" callback, or an "inProgress" callback.
 For the duration of the current stage in development, building and its tasks are not within scope.
 
-setArea
-
-within drawFunction
-look for internal PowerGrid
-look for scrap and biomatter in area
-draw power into internal battery/powerCache
--> this requires more effort. The actual procedures should determine required power, and the power should... well, yes, it should be "reserved" in advance from the grid.
--> consider a sort of task management.
-  -> import bioMatter
-  -> import scrap
-  -> build structures
-
 within doFunction
 perform tasks
 
@@ -61,6 +49,30 @@ within doneFunction
 export/expose task results.
 
 */
+
+function SampleFoundry(){
+    var powerDepot = 5;
+    var biomass = 4000;
+    var bioMatter = { level: 400, limit: 2000 };
+    function hasPower(amount) {
+        if( powerDepot < amount) {
+          return false;
+        } else {
+          return true;
+        }
+    }
+    function hasBiomass(){ return biomass > 0; }
+    function isBioCapacityAvailable(amount) {return bioMatter.level + amount <= bioMatter.limit;}
+    function gatherBioMatter(){
+        const powerReq = 2;
+        const bioPull = 10;
+        if (hasPower(powerReq) && hasBiomass() && isBioCapacityAvailable(bioPull)){
+            powerDepot -= powerReq;
+            biomass -= bioPull;
+            bioMatter.level += bioPull;
+        }
+    }
+}
 
 var Foundry = function(internal){
     var localResources = [];
@@ -87,8 +99,63 @@ var Foundry = function(internal){
         });
         return response;
     }
+/*  
+    look for internal PowerGrid
+    look for scrap and biomatter in area
+    draw power into internal battery/powerCache
+    -> this requires more effort. The actual procedures should determine required power, and the power should... well, yes, it should be "reserved" in advance from the grid.
+    -> consider a sort of task management.
+        -> import bioMatter
+        -> import scrap
+        -> build structures
+   */
+    function drawFunction(){
+        // look for materials
+        // find power for each active task
+        // -> building tasks have higher priority over resource tasks
+    }
 
-    var logFile = new Array(5);
+    function doFunction(){
+        // execute gathering tasks
+    }
+
+    let bTasks = [new Task(2, "Gather Biomatter", gatherBiomatter)];
+    
+    function gatherBiomatter(){
+        var source = localResources[1];
+        var bioCache = source.withdraw(20);
+        let isEmpty = bioCache.level > 0;
+        let target = internal.biomatter;
+        if (target.isFull){
+            log("Aborted. Target Deposit ist at max capacity.")
+            return new Yield("stopped", false);
+        }
+        target.deposit(bioCache);
+        return new Yield("continuous", isEmpty);
+    }
+
+    function Yield(progress, isDone){
+        this.progress = progress;
+        this.isDone = isDone;
+    }
+
+    function Task(powerReq, title, doAction){
+        this.title = title;
+        this.isPowered = false;
+        this.powerRequirement = powerReq;
+        this.desc = this.title+": requires "+this.power+" power. Progress is "+this.progress+" and receiving "+(this.isPowered?"":"no ")+"power";
+        this.isDone = false;
+        this.doAction = doAction;
+        this.progress = "";
+        this.execute = function(){
+            if(!isPowered && !isDone) return;
+            let yield = this.doAction();
+            this.isDone = yield.isDone;
+            this.progress = yield.progress;
+        }
+    }
+
+    var logFile = new Array(20);
     var pointer = 4;
     function log(msg){
         pointer === logFile.length-1 ? pointer = 0 : pointer ++;

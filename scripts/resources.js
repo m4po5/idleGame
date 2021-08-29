@@ -17,6 +17,9 @@ function Resource(value, type){
 function ResourceDeposit(value, capacity, type){
     Resource.call(this, value, type);
     this.capacity = capacity;
+    this.isFull = function(){
+        return this.capacity === this.level;
+    }
     this.deposit = function(amount){
         if (amount+this.level > this.capacity){
             this.level = this.capacity;
@@ -53,6 +56,6 @@ function PowerGrid(){
     }
 }
 
-var areas = [[new Resource(5000, "Scrap"), new Resource(10000, "Biomatter")], []];
+var areas = [[new Resource(5000, "Scrap"), new Resource(10000, "Raw Biomass")], []];
 
 var internal = {minerals: new ResourceDeposit(0,5000, "Minerals"), biomatter: new ResourceDeposit(0,5000, "Biomatter"), power: new PowerGrid()}
