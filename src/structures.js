@@ -1,3 +1,4 @@
+// simplify draw-do-done into "generate power" (?)
 function PowerPlant(biomatterDeposit, carbonDeposit){
     this.biomatterDepot = biomatterDeposit;
     this.carbonDepot = carbonDeposit;
@@ -73,6 +74,8 @@ function SampleFoundry(){
         }
     }
 }
+
+// have an engine.taskManager with something like { var tasks = [structures.Foundry.gatherBiomatter]; }
 
 var Foundry = function(internal){
     var localResources = [];
