@@ -40,6 +40,25 @@ pieces.Resource.OutOfResourceException = function(resource){
         return this.name + ": " + this.level + " remaining";
     }
 }
+pieces.LogMessage = function(msg, lvl){
+    this.msg = msg;
+    this.lvl = lvl;
+    this.toString = function(){
+        let string = "";
+        switch(this.lvl){
+            case 1:
+                string += "warning: ";
+                break;
+            case 2:
+                string += "critical: ";
+                break;
+            default:
+                string += "info: ";
+        }
+        string += msg;
+        return string;
+    }
+}
 
 // pieces located inside the robotic unit controlled by the player
 pieces.robotics = {};
@@ -86,22 +105,86 @@ pieces.robotics.Foundry = function(){
         }
     }
 
+    this.bioSource;
     /**
      * 
-     * @param {pieces.Resource} source 
-     * @param {pieces.robotics.Storage} target 
+     * @param {pieces.Resource} source Resource Object of type BIO
      */
-    this.gatherBiomass = function (source, target){
-        if (source.type !== pieces.Resource.types.BIO) throw new pieces.robotics.Foundry.ResourceTypeError(source, pieces.Resource.types.BIO);
-        if (target.type !== pieces.Resource.types.BIO) throw new pieces.robotics.Foundry.ResourceTypeError(target, pieces.Resource.types.BIO);
+    this.setBioSource = function(source){
+        if (source.type !== pieces.Resource.types.BIO)
+            throw new pieces.robotics.Foundry.ResourceTypeError(source, pieces.Resource.types.BIO);
+        this.bioSource = source;
+    }
+    this.getBioSource = function(){
+        if (this.bioSource === undefined )
+            throw new Error("no Resource defined in Foundry");
+        return this.bioSource;
+    }
+
+    this.bioTarget;
+    /**
+     * 
+     * @param {pieces.robotics.Storage} target Storage Object of type BIO
+     */
+    this.setBioTarget = function(target){
+        if (target.type !== pieces.Resource.types.BIO)
+            throw new pieces.robotics.Foundry.ResourceTypeError(target, pieces.Resource.types.BIO);
+        this.bioTarget = target;
+    }
+    this.getBioTarget = function(target){
+        if(this.bioTarget === undefined)
+            throw new Error("no Storage defined in Foundry");
+        return this.bioTarget;
+    }
+
+    this.gatherBiomass = function (bioPull){
+        const source = this.getBioSource();
+        const target = this.getBioTarget();
+
         const powerReq = 2;
-        const bioPull = 10;
-        let cache = 0;
-        if (hasPower(powerReq) && source.hasAmount(bioPull) && target.hasCapacity(bioPull)){
-            // powerDepot -= powerReq;
-            cache = source.withdraw(bioPull);
-            target.deposit(cache);
+        if (!hasPower(powerReq)){
+            this.monitor.log("Foundry ran out of power", 2);
+            return;
         }
+
+        if(!source.hasAmount(bioPull)) {
+            this.monitor.log(source.name + " has run out of resources", 1);
+            bioPull = source.level;
+        }
+        if(!target.hasCapacity(bioPull)){
+            this.monitor.log(target.name + " has reached maximum capacity", 1);
+            bioPull = target.capacity - target.level;
+        }
+
+        let cache = 0;
+        // powerDepot -= powerReq;
+        cache = source.withdraw(bioPull);
+        target.deposit(cache);
+    }
+
+    /**
+     * 
+     * @param {Integer} elapsedTime milliseconds
+     */
+    this.update = function(elapsedTime){
+        this.monitor.clear();
+        const bioPull = (10/1000) * elapsedTime; // 10 units per second divided by 1000 milliseconds multiplied with the amount of elapsed milliseconds
+        this.gatherBiomass(bioPull);
+    }
+
+    this.monitor = {
+        messages: [],
+        log: function(msg, lvl){this.messages.push(new pieces.LogMessage(msg, lvl));},
+        clear: function(){this.messages = [];}
+    };
+    this.setMonitor = function(monitor){
+        this.monitor.forEach(logMsg => {
+            monitor.log(logMsg.msg, logMsg.lvl);
+        });
+        this.monitor = monitor;
+    }
+    this.getMonitor = function(){
+        return this.monitor;
     }
 }
 /**
