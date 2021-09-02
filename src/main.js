@@ -124,6 +124,30 @@ $(document).ready(function () {
         clearReqs();
     });
 
+    // working with new code
+
+    // set up pieces
+    var areas = [[new pieces.Resource(pieces.Resource.types.METAL, 5000, "Scrap"), new pieces.Resource(pieces.Resource.types.BIO, 10000, "Raw Biomass")], []];
+    var internal = {biomatter: new pieces.robotics.Storage(pieces.Resource.types.BIO, 0,100, "Biomatter Storage")}
+
+    var foundry = new pieces.robotics.Foundry();
+    foundry.setBioSource(areas[0][1]);
+    foundry.setBioTarget(internal.biomatter);
+
+    // hook into onTick()
+    Ticker.onTick(function(ms){foundry.update(ms);});
     Ticker.start();
 
+    window.main = function(){
+        window.requestAnimationFrame(main);
+        var txt="";
+        txt += "new bio storage: "+ Math.floor(internal.biomatter.level);
+        for(var i=0, msgs=foundry.getMonitor().messages, max=msgs.length;i<max;i++){
+            txt += "<br>"+msgs[i].toString();
+        }
+        $("#testMonitor").html(txt);
+        $("#testMonitor").nextAll("button:first").text("increase storage capacity to " + (internal.biomatter.capacity+100));
+    }
+    main();
+    $("#testMonitor").after($("<button></button>").click(function(){internal.biomatter.increaseCapacity(100);}));
 })

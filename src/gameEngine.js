@@ -5,11 +5,12 @@ var Ticker = function () {
     }
 
     async function start() {
+        let ms = 100;
         while (true) {
             dos.forEach(element => {
-                element();
+                element(ms);
             });
-            await sleep(100);
+            await sleep(ms);
         }
 
     };

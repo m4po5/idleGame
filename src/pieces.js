@@ -168,7 +168,7 @@ pieces.robotics.Foundry = function(){
      */
     this.update = function(elapsedTime){
         this.monitor.clear();
-        const bioPull = (10/1000) * elapsedTime; // 10 units per second divided by 1000 milliseconds multiplied with the amount of elapsed milliseconds
+        const bioPull = (3/1000) * elapsedTime; // 10 units per second divided by 1000 milliseconds multiplied with the amount of elapsed milliseconds
         this.gatherBiomass(bioPull);
     }
 

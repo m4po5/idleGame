@@ -81,7 +81,7 @@ QUnit.module("Foundry Tests", function(hooks){
     });
     test("update", function(assert){
         const milliseconds = 230;
-        const expBio = (10/1000) * milliseconds;
+        const expBio = (3/1000) * milliseconds;
         const bioLvl = this.bio.level;
         const storageLvl = this.storage.level;
 
